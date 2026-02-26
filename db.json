@@ -407,6 +407,13 @@
       "role": "admin",
       "isDeleted": true,
       "id": 67
+    },
+    {
+      "name": "ㅍㅍ",
+      "email": "ㅍㅍㅍ",
+      "role": "user",
+      "isDeleted": false,
+      "id": 68
     }
   ]
 }
