@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { getUsers, softDeleteUser } from "../api/userApi"
+import { getUsers, softDeleteUser, createUser } from "../api/userApi"
+
 
 export const useUsers = () => {
   return useQuery({
@@ -15,6 +16,17 @@ export const useSoftDeleteUser = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => softDeleteUser(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] })
+    }
+  })
+}
+
+export const useCreateUser = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] })
     }

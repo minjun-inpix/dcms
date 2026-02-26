@@ -25,13 +25,15 @@
       "id": 4,
       "name": "Choi",
       "email": "choi@test.com",
-      "role": "admin"
+      "role": "admin",
+      "isDeleted": true
     },
     {
       "id": 5,
       "name": "Jung",
       "email": "jung@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 6,
@@ -398,6 +400,13 @@
       "name": "Yoon",
       "email": "yoon@test.com",
       "role": "admin"
+    },
+    {
+      "name": "홍길동",
+      "email": "kkmj1123@gmail.com",
+      "role": "admin",
+      "isDeleted": true,
+      "id": 67
     }
   ]
 }

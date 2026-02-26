@@ -14,3 +14,7 @@ export const softDeleteUser = (id: number) => {
     isDeleted: true
   })
 }
+
+export const createUser = (data: Omit<User, "id">) => {
+  return api.post("/users", data)
+}
