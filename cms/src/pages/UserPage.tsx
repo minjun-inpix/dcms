@@ -21,6 +21,7 @@ const UserPage = () => {
         ? prev.filter((v) => v !== id)
         : [...prev, id]
     )
+    console.log("Check handler");
   }
 
   const [form, setForm] = useState({
@@ -41,17 +42,20 @@ const UserPage = () => {
       {/* 🔥 여기! 상단 버튼 */}
       <button onClick={() => setIsOpen(true)}>
         회원 등록
+
       </button>
       <button
         disabled={selectedIds.length === 0}
         onClick={() => {
           if (window.confirm("선택한 항목을 삭제하시겠습니까?")) {
+            console.log("삭제");
             selectedIds.forEach((id) => mutate(id))  // 👈 여기 들어감
             setSelectedIds([])
           }
         }}
       >
         선택 삭제
+
       </button>
 
       <table>
@@ -138,12 +142,17 @@ const UserPage = () => {
                     }
                   }
                 )
+                console.log("저장 클릭됨");
               }}
             >
               저장
             </button>
 
-            <button onClick={() => setIsOpen(false)}>
+            {/* <button onClick={() => setIsOpen(false)}> */}
+            <button onClick={() => {
+              console.log("닫기 버튼 클릭됨");
+              setIsOpen(false);
+            }}>
               취소
             </button>
           </div>

@@ -6,7 +6,9 @@ export const useUsers = () => {
   return useQuery({
     queryKey: ["users"],
     queryFn: async () => {
+      console.log("API 호출 직전");
       const res = await getUsers()
+      console.log("API 호출 완료");
       return res.data.filter(user => !user.isDeleted)
     }
   })

@@ -39,61 +39,71 @@
       "id": 6,
       "name": "Hong",
       "email": "hong@test.com",
-      "role": "admin"
+      "role": "admin",
+      "isDeleted": true
     },
     {
       "id": 7,
       "name": "Jeong",
       "email": "jeong@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 8,
       "name": "Moon",
       "email": "moon@test.com",
-      "role": "admin"
+      "role": "admin",
+      "isDeleted": true
     },
     {
       "id": 9,
       "name": "Cho",
       "email": "cho@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 10,
       "name": "Yoon",
       "email": "yoon@test.com",
-      "role": "admin"
+      "role": "admin",
+      "isDeleted": true
     },
     {
       "id": 11,
       "name": "Park",
       "email": "park@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 12,
       "name": "Choi",
       "email": "choi@test.com",
-      "role": "admin"
+      "role": "admin",
+      "isDeleted": true
     },
     {
       "id": 13,
       "name": "Jung",
       "email": "jung@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 14,
       "name": "Hong",
       "email": "hong@test.com",
-      "role": "admin"
+      "role": "admin",
+      "isDeleted": true
     },
     {
       "id": 15,
       "name": "Jeong",
       "email": "jeong@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 16,
@@ -414,6 +424,13 @@
       "role": "user",
       "isDeleted": false,
       "id": 68
+    },
+    {
+      "name": "김길동",
+      "email": "ㅎㅎㅎㅎ",
+      "role": "user",
+      "isDeleted": false,
+      "id": 69
     }
   ]
 }
