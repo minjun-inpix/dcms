@@ -38,12 +38,12 @@ function App() {
   }
 
   return (
-    <div style={{ height:'100vh', padding: 12 }}>
-      <p>화면 목록</p>
+    <div style={{ height: '100vh', padding: 24, textAlign: 'center' }}>
+      <h1>화면 목록</h1>
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {pages.map(p => (
           <li key={p.id} style={{ marginBottom: 8 }}>
-            <button 
+            <button
               onClick={() => setCurrentId(p.id)}
               style={{
                 padding: '8px 16px',

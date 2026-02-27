@@ -50,10 +50,6 @@ const UserPage = () => {
     { key: "role", label: "권한", width: "100px" }
   ] as const
 
-  /* 4️⃣ early return */
-  if (isLoading) return <div>Loading...</div>
-  if (isError) return <div>Error</div>
-
   const totalPages = useMemo(
     () => Math.ceil((data?.length ?? 0) / 20),
     [data?.length]
@@ -63,6 +59,10 @@ const UserPage = () => {
     () => data?.slice((page - 1) * 20, page * 20),
     [data, page]
   )
+
+  /* 4️⃣ early return */
+  if (isLoading) return <div>Loading...</div>
+  if (isError) return <div>Error</div>
 
   /* 6️⃣ return */
   return (
