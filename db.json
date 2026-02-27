@@ -109,13 +109,15 @@
       "id": 16,
       "name": "Moon",
       "email": "moon@test.com",
-      "role": "admin"
+      "role": "admin",
+      "isDeleted": true
     },
     {
       "id": 17,
       "name": "Cho",
       "email": "cho@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 18,

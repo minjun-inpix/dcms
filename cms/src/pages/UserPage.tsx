@@ -13,6 +13,8 @@ const UserPage = () => {
   /* 2️⃣ state */
   const [selectedIds, setSelectedIds] = useState<number[]>([])
   const [isOpen, setIsOpen] = useState(false)
+  const [showDatePicker, setShowDatePicker] = useState(false)
+  const [selectedDate, setSelectedDate] = useState("")
 
   /* 3️⃣ handlers */
   const handleCheck = (id: number) => {
@@ -38,11 +40,8 @@ const UserPage = () => {
   return (
     <div>
       <h2>회원 관리</h2>
-
-      {/* 🔥 여기! 상단 버튼 */}
       <button onClick={() => setIsOpen(true)}>
         회원 등록
-
       </button>
       <button
         disabled={selectedIds.length === 0}
@@ -55,8 +54,20 @@ const UserPage = () => {
         }}
       >
         선택 삭제
-
       </button>
+      <button style={{ marginLeft: 10 }} onClick={() => setShowDatePicker(!showDatePicker)}>
+        {showDatePicker ? "날짜 선택 닫기" : "날짜 선택 열기"}
+      </button>
+
+      {showDatePicker && (
+        <div style={{ marginBottom: 10, marginTop: 10 }}>
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          />
+        </div>
+      )}
 
       <table>
         <thead>
@@ -68,7 +79,6 @@ const UserPage = () => {
             <th>권한</th>
           </tr>
         </thead>
-
         <tbody>
           {data?.map((user) => (
             <tr key={user.id}>

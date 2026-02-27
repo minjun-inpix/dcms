@@ -53,6 +53,17 @@ const UserPage1 = () => {
       >
         선택 삭제
       </button>
+      <button
+        disabled={selectedIds.length === 0}
+        onClick={() => {
+          if (window.confirm("선택한 항목을 수정하시겠습니까?")) {
+            selectedIds.forEach((id) => mutate(id))  // 👈 여기 들어감
+            setSelectedIds([])
+          }
+        }}
+      >
+        선택 수정
+      </button>
 
       <table>
         <thead>

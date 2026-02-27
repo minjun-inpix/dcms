@@ -18,3 +18,7 @@ export const softDeleteUser = (id: number) => {
 export const createUser = (data: Omit<User, "id">) => {
   return api.post("/users", data)
 }
+
+export const updateUser = (data: Partial<User> & { id: number }) => {
+  return api.patch(`/users/${data.id}`, data)
+}
