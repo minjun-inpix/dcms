@@ -42,6 +42,14 @@ const UserPage = () => {
     role: "user"
   })
 
+  const roles = ["user", "admin"] as const
+  const tableHeaders = [
+    { key: "id", label: "ID", width: "60px" },
+    { key: "name", label: "이름", width: "120px" },
+    { key: "email", label: "이메일", width: "240px" },
+    { key: "role", label: "권한", width: "100px" }
+  ] as const
+
   /* 4️⃣ early return */
   if (isLoading) return <div>Loading...</div>
   if (isError) return <div>Error</div>
@@ -100,10 +108,11 @@ const UserPage = () => {
                 onChange={() => handleCheckAll()}
               />
             </th>
-            <th>ID</th>
-            <th>이름</th>
-            <th>이메일</th>
-            <th>권한</th>
+            {tableHeaders.map((header) => (
+              <th key={header.key} style={{ width: header.width }}>
+                {header.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -205,8 +214,11 @@ const UserPage = () => {
                   setForm({ ...form, role: e.target.value })
                 }
               >
-                <option value="user">user</option>
-                <option value="admin">admin</option>
+                {roles.map((role) => (
+                  <option key={role} value={role}>
+                    {role}
+                  </option>
+                ))}
               </select>
             </div>
 
