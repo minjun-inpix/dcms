@@ -9,7 +9,8 @@ export const useUsers = () => {
       console.log("API 호출 직전");
       const res = await getUsers()
       console.log("API 호출 완료");
-      return res.data.filter(user => !user.isDeleted)
+      // 소프트 삭제된 유저도 화면에 남겨두기 위해 필터링하지 않는다
+      return res.data
     }
   })
 }

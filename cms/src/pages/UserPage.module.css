@@ -1,0 +1,54 @@
+.title {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.btnGroup {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+.table th,
+.table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+}
+.table th {
+  text-align: left;
+  background-color: #f8f9fa;
+}
+
+.pagination {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination button[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.rowGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.colGroup {
+  display: flex;
+  gap: 8px;
+}
+.colGroup > button {
+  flex: 1;
+}/*# sourceMappingURL=UserPage.module.css.map */

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useUsers } from "../hooks/useUsers"
 import { useSoftDeleteUser } from "../hooks/useUsers"
 import { useCreateUser } from "../hooks/useUsers"
+import styles from "./UserPage.module.scss"
 
 
 const UserPage = () => {
@@ -15,6 +16,7 @@ const UserPage = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [selectedDate, setSelectedDate] = useState("")
+  const [page, setPage] = useState(1)
 
   /* 3️⃣ handlers */
   const handleCheck = (id: number) => {
@@ -24,6 +26,13 @@ const UserPage = () => {
         : [...prev, id]
     )
     console.log("Check handler");
+  }
+
+  const handleCheckAll = () => {
+    if (!data) return
+    setSelectedIds((prev) =>
+      prev.length === data.length ? [] : data.map((user) => user.id)
+    )
   }
 
   const [form, setForm] = useState({
@@ -36,43 +45,53 @@ const UserPage = () => {
   if (isLoading) return <div>Loading...</div>
   if (isError) return <div>Error</div>
 
-  /* 5️⃣ return */
+  const totalPages = Math.ceil(((data?.length ?? 0) / 20))
+  const paginatedData = data?.slice((page - 1) * 20, page * 20)
+
+  /* 6️⃣ return */
   return (
-    <div>
-      <h2>회원 관리</h2>
-      <button onClick={() => setIsOpen(true)}>
-        회원 등록
-      </button>
-      <button
-        disabled={selectedIds.length === 0}
-        onClick={() => {
-          if (window.confirm("선택한 항목을 삭제하시겠습니까?")) {
-            console.log("삭제");
-            selectedIds.forEach((id) => mutate(id))  // 👈 여기 들어감
-            setSelectedIds([])
-          }
-        }}
-      >
-        선택 삭제
-      </button>
-      <button style={{ marginLeft: 10 }} onClick={() => setShowDatePicker(!showDatePicker)}>
-        {showDatePicker ? "날짜 선택 닫기" : "날짜 선택 열기"}
-      </button>
+    <div className={styles.userPage}>
+      <h2 className={styles.title}>회원 관리</h2>
+      <div className={styles.btnGroup}>
+        <button onClick={() => setIsOpen(true)}>
+          회원 등록
+        </button>
+        <button
+          disabled={selectedIds.length === 0}
+          onClick={() => {
+            if (window.confirm("선택한 항목을 삭제하시겠습니까?")) {
+              console.log("삭제");
+              selectedIds.forEach((id) => mutate(id))
+              setSelectedIds([])
+            }
+          }}
+        >
+          선택 삭제
+        </button>
+        <button onClick={() => setShowDatePicker(!showDatePicker)}>
+          {showDatePicker ? "날짜 선택 닫기" : "날짜 선택 열기"}
+        </button>
 
-      {showDatePicker && (
-        <div style={{ marginBottom: 10, marginTop: 10 }}>
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />
-        </div>
-      )}
-
-      <table>
+        {showDatePicker && (
+          <div style={{ marginBottom: 10, marginTop: 10 }}>
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
+          </div>
+        )}
+      </div>
+      <table className={styles.table}>
         <thead>
           <tr>
-            <th>선택</th>
+            <th>
+              <input
+                type="checkbox"
+                checked={selectedIds.length === data?.length}
+                onChange={() => handleCheckAll()}
+              />
+            </th>
             <th>ID</th>
             <th>이름</th>
             <th>이메일</th>
@@ -80,8 +99,11 @@ const UserPage = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.map((user) => (
-            <tr key={user.id}>
+          {paginatedData?.map((user) => (
+            <tr
+              key={user.id}
+              className={user.isDeleted ? styles.deletedRow : undefined}
+            >
               <td>
                 <input
                   type="checkbox"
@@ -97,6 +119,33 @@ const UserPage = () => {
           ))}
         </tbody>
       </table>
+
+      <div className={styles.pagination}>
+        <button
+          disabled={page <= 1}
+          onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+        >
+          이전
+        </button>
+        {Array.from({ length: totalPages }).map((_, index) => {
+          const pageNumber = index + 1
+          return (
+            <button
+              key={pageNumber}
+              onClick={() => setPage(pageNumber)}
+              disabled={pageNumber === page}
+            >
+              {pageNumber}
+            </button>
+          )
+        })}
+        <button
+          disabled={page >= totalPages}
+          onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
+        >
+          다음
+        </button>
+      </div>
 
       {isOpen && (
         <div style={{
@@ -115,56 +164,59 @@ const UserPage = () => {
           }}>
             <h3>회원 등록</h3>
 
-            <input
-              placeholder="이름"
-              value={form.name}
-              onChange={(e) =>
-                setForm({ ...form, name: e.target.value })
-              }
-            />
+            <div className={styles.rowGroup}>
+              <input
+                placeholder="이름"
+                value={form.name}
+                onChange={(e) =>
+                  setForm({ ...form, name: e.target.value })
+                }
+              />
 
-            <input
-              placeholder="이메일"
-              value={form.email}
-              onChange={(e) =>
-                setForm({ ...form, email: e.target.value })
-              }
-            />
+              <input
+                placeholder="이메일"
+                value={form.email}
+                onChange={(e) =>
+                  setForm({ ...form, email: e.target.value })
+                }
+              />
 
-            <select
-              value={form.role}
-              onChange={(e) =>
-                setForm({ ...form, role: e.target.value })
-              }
-            >
-              <option value="user">user</option>
-              <option value="admin">admin</option>
-            </select>
+              <select
+                value={form.role}
+                onChange={(e) =>
+                  setForm({ ...form, role: e.target.value })
+                }
+              >
+                <option value="user">user</option>
+                <option value="admin">admin</option>
+              </select>
+            </div>
 
-            <button
-              onClick={() => {
-                createMutate(
-                  { ...form, isDeleted: false },
-                  {
-                    onSuccess: () => {
-                      setIsOpen(false)
-                      setForm({ name: "", email: "", role: "user" })
+            <div className={styles.colGroup} style={{marginTop : 16}}>
+              <button
+                onClick={() => {
+                  createMutate(
+                    { ...form, isDeleted: false },
+                    {
+                      onSuccess: () => {
+                        setIsOpen(false)
+                        setForm({ name: "", email: "", role: "user" })
+                      }
                     }
-                  }
-                )
-                console.log("저장 클릭됨");
-              }}
-            >
-              저장
-            </button>
+                  )
+                  console.log("저장 클릭됨");
+                }}
+              >
+                저장
+              </button>
+              <button onClick={() => {
+                console.log("닫기 버튼 클릭됨");
+                setIsOpen(false);
+              }}>
+                취소
+              </button>
 
-            {/* <button onClick={() => setIsOpen(false)}> */}
-            <button onClick={() => {
-              console.log("닫기 버튼 클릭됨");
-              setIsOpen(false);
-            }}>
-              취소
-            </button>
+            </div>
           </div>
         </div>
       )}

@@ -31,17 +31,15 @@ function App() {
     const PageComponent = current.Component
     return (
       <div style={{ padding: 24 }}>
-        <button onClick={() => setCurrentId(null)} style={{ marginBottom: 16 }}>← 화면 목록으로</button>
-        <h1>{current.title}</h1>
-        <hr style={{ margin: '16px 0' }} />
+        <button onClick={() => setCurrentId(null)}>← 화면 목록으로</button>
         <PageComponent />
       </div>
     )
   }
 
   return (
-    <div style={{ height:'100vh', padding: 24, textAlign: 'center' }}>
-      <h1>화면 목록</h1>
+    <div style={{ height:'100vh', padding: 12 }}>
+      <p>화면 목록</p>
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {pages.map(p => (
           <li key={p.id} style={{ marginBottom: 8 }}>
