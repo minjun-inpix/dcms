@@ -2,14 +2,16 @@ import { useState, useMemo } from "react"
 import { useUsers } from "../hooks/useUsers"
 import { useSoftDeleteUser } from "../hooks/useUsers"
 import { useCreateUser } from "../hooks/useUsers"
+import { useUpdateUser } from "../hooks/useUsers"
 import styles from "./UserPage.module.scss"
 
 
 const UserPage = () => {
   /* 1️⃣ hooks */
   const { data, isLoading, isError } = useUsers()
-  const { mutate } = useSoftDeleteUser()
+  const { mutate: softDeleteMutate } = useSoftDeleteUser()
   const { mutate: createMutate } = useCreateUser()
+  const { mutate: updateUserMutate } = useUpdateUser()
 
   /* 2️⃣ state */
   const [selectedIds, setSelectedIds] = useState<number[]>([])
@@ -75,11 +77,33 @@ const UserPage = () => {
         <button
           disabled={selectedIds.length === 0}
           onClick={() => {
-            if (window.confirm("선택한 항목을 삭제하시겠습니까?")) {
-              console.log("삭제");
-              selectedIds.forEach((id) => mutate(id))
-              setSelectedIds([])
-            }
+            if (!data) return
+
+            const hasDeletedUser = selectedIds.some((id) =>
+              data.find((user) => user.id === id && user.isDeleted)
+            )
+
+            const confirmMessage = hasDeletedUser
+              ? "이미 삭제된 항목은 복구하고, 나머지는 삭제하시겠습니까?"
+              : "선택한 항목을 삭제하시겠습니까?"
+
+            if (!window.confirm(confirmMessage)) return
+
+            console.log("삭제/복구 처리");
+            selectedIds.forEach((id) => {
+              const targetUser = data.find((user) => user.id === id)
+              if (!targetUser) return
+
+              if (targetUser.isDeleted) {
+                // 이미 삭제된 사용자면 복구
+                updateUserMutate({ id, isDeleted: false })
+              } else {
+                // 아직 삭제되지 않았다면 소프트 삭제
+                softDeleteMutate(id)
+              }
+            })
+
+            setSelectedIds([])
           }}
         >
           선택 삭제

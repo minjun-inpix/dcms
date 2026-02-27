@@ -5,14 +5,14 @@
       "name": "Kim",
       "email": "kim@test.com",
       "role": "admin",
-      "isDeleted": true
+      "isDeleted": false
     },
     {
       "id": 2,
       "name": "Lee",
       "email": "lee@test.com",
       "role": "user",
-      "isDeleted": true
+      "isDeleted": false
     },
     {
       "id": 3,
