@@ -11,13 +11,15 @@
       "id": 2,
       "name": "Lee",
       "email": "lee@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 3,
       "name": "Park",
       "email": "park@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 4,
@@ -101,7 +103,8 @@
       "id": 17,
       "name": "Cho",
       "email": "cho@test.com",
-      "role": "user"
+      "role": "user",
+      "isDeleted": true
     },
     {
       "id": 18,
@@ -428,6 +431,13 @@
       "role": "user",
       "isDeleted": false,
       "id": 71
+    },
+    {
+      "name": "김회원",
+      "email": "mj@kkk.kk",
+      "role": "user",
+      "isDeleted": false,
+      "id": 72
     }
   ]
 }

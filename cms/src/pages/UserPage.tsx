@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { useUsers } from "../hooks/useUsers"
 import { useSoftDeleteUser } from "../hooks/useUsers"
 import { useCreateUser } from "../hooks/useUsers"
@@ -17,6 +17,7 @@ const UserPage = () => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [selectedDate, setSelectedDate] = useState("")
   const [page, setPage] = useState(1)
+  const [emailError, setEmailError] = useState("")
 
   /* 3️⃣ handlers */
   const handleCheck = (id: number) => {
@@ -45,8 +46,15 @@ const UserPage = () => {
   if (isLoading) return <div>Loading...</div>
   if (isError) return <div>Error</div>
 
-  const totalPages = Math.ceil(((data?.length ?? 0) / 20))
-  const paginatedData = data?.slice((page - 1) * 20, page * 20)
+  const totalPages = useMemo(
+    () => Math.ceil((data?.length ?? 0) / 20),
+    [data?.length]
+  )
+
+  const paginatedData = useMemo(
+    () => data?.slice((page - 1) * 20, page * 20),
+    [data, page]
+  )
 
   /* 6️⃣ return */
   return (
@@ -176,10 +184,20 @@ const UserPage = () => {
               <input
                 placeholder="이메일"
                 value={form.email}
-                onChange={(e) =>
-                  setForm({ ...form, email: e.target.value })
-                }
+                onChange={(e) => {
+                  const value = e.target.value
+                  setForm({ ...form, email: value })
+                  // @ 포함 여부에 따라 에러 메시지 업데이트
+                  if (value && !value.includes("@")) {
+                    setEmailError("이메일에는 @가 포함되어야 합니다.")
+                  } else {
+                    setEmailError("")
+                  }
+                }}
               />
+              {emailError && (
+                <span className={styles.errorText}>{emailError}</span>
+              )}
 
               <select
                 value={form.role}
@@ -195,12 +213,19 @@ const UserPage = () => {
             <div className={styles.colGroup} style={{marginTop : 16}}>
               <button
                 onClick={() => {
+                  // 이메일 유효성 검사 (@ 필수)
+                  if (!form.email || !form.email.includes("@")) {
+                    setEmailError("이메일에 @를 포함해 주세요.")
+                    return
+                  }
+
                   createMutate(
                     { ...form, isDeleted: false },
                     {
                       onSuccess: () => {
                         setIsOpen(false)
                         setForm({ name: "", email: "", role: "user" })
+                        setEmailError("")
                       }
                     }
                   )
